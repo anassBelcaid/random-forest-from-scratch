@@ -39,8 +39,27 @@ def split_score(parent_labels, left_labels, right_labels):
 
     return parent_score - children_score
 
-# Step 4 - best_split (not yet solved)
-# TODO: implement
+# Step 4 - best_split
+def best_split(features, labels, feature_indices):
+    # TODO: search feature_indices for the (feature, threshold) that best improves purity.
+    feature_index = None
+    threshold = None
+    score = 0.0
+
+    for i in feature_indices:
+        # thirsholds are mid unique values
+        feature = features[:, i]
+        u = np.unique(feature)
+        thresholds = (u[1:] + u[:-1]) / 2
+        for t in thresholds:
+            mask = feature <= t
+            left_labels, right_labels = labels[mask], labels[~mask]
+            splt_score = split_score(labels, left_labels, right_labels)
+            if splt_score > score:
+                score = splt_score
+                feature_index = i
+                threshold = t
+    return {"feature_index": feature_index, "threshold": threshold, "score": score}
 
 # Step 5 - should_stop (not yet solved)
 # TODO: implement
