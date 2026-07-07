@@ -18,7 +18,7 @@ def impurity(labels):
 def split_dataset(features, labels, feature_index, threshold):
     # TODO: partition rows into left (feature <= threshold) and right (feature > threshold)
     feature = features[:, feature_index]
-    mask = feature < threshold
+    mask = feature <= threshold
     left_features = features[mask]
     left_labels = labels[mask]
     right_features = features[~mask]
