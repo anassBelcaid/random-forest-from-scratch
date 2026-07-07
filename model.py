@@ -81,8 +81,50 @@ def leaf_prediction(labels):
     combined.sort(key=lambda x: -x[0])
     return combined[0][0].item()
 
-# Step 7 - build_tree (not yet solved)
-# TODO: implement
+# Step 7 - build_tree
+def build_tree(
+    features, labels, max_depth=10, min_samples_split=2, feature_subset=None, depth=0
+):
+    # TODO: recursively grow a decision tree, returning a nested dict of leaf/internal nodes.
+    # base case
+    if should_stop(labels, depth, max_depth, min_samples_split):
+        p = leaf_prediction(labels)
+        return {"leaf": True, "prediction": p}
+    # internal node
+    result = {"leaf": False}
+    # computing the best split
+    if feature_subset is None:
+        m = features.shape[1]
+        feature_subset = list(range(m))
+    if len(feature_subset) == 0:
+        return {"leaf": True, "prediction": leaf_prediction(labels)}
+    # computing the best split
+    split_info = best_split(features, labels, feature_subset)
+    if split_info["feature_index"] is None:
+        return {"leaf": True, "prediction": leaf_prediction(labels)}
+    feature_index = split_info["feature_index"]
+    threshold = split_info["threshold"]
+
+    # feature_subset = np.array(v for v in feature_subset if v != feature_index)
+    feature_subset.remove(feature_index)
+    l_features, l_labels, r_features, r_labels = split_dataset(
+        features, labels, feature_index, threshold
+    )
+
+    left_node = build_tree(
+        l_features, l_labels, max_depth, min_samples_split, feature_subset, depth + 1
+    )
+    right_node = build_tree(
+        r_features, r_labels, max_depth, min_samples_split, feature_subset, depth + 1
+    )
+
+    return {
+        "leaf": False,
+        "feature_index": feature_index,
+        "threshold": threshold,
+        "left": left_node,
+        "right": right_node,
+    }
 
 # Step 8 - predict_example_tree (not yet solved)
 # TODO: implement
