@@ -61,8 +61,16 @@ def best_split(features, labels, feature_indices):
                 threshold = t
     return {"feature_index": feature_index, "threshold": threshold, "score": score}
 
-# Step 5 - should_stop (not yet solved)
-# TODO: implement
+# Step 5 - should_stop
+def should_stop(labels, depth, max_depth, min_samples_split):
+    """Return True if this node should become a leaf instead of splitting further."""
+    if depth >= max_depth:
+        return True
+    if len(labels) <= min_samples_split:
+        return True
+    if impurity(labels) == 0.0:
+        return True
+    return False
 
 # Step 6 - leaf_prediction (not yet solved)
 # TODO: implement
