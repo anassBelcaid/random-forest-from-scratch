@@ -72,8 +72,14 @@ def should_stop(labels, depth, max_depth, min_samples_split):
         return True
     return False
 
-# Step 6 - leaf_prediction (not yet solved)
-# TODO: implement
+# Step 6 - leaf_prediction
+def leaf_prediction(labels):
+    # TODO: choose a single class label to output for a leaf given the labels that reached it
+    # majority vote
+    u, c = np.unique(labels, return_counts=True)
+    combined = [(val, freq) for (val, freq) in zip(u, c)]
+    combined.sort(key=lambda x: -x[0])
+    return combined[0][0].item()
 
 # Step 7 - build_tree (not yet solved)
 # TODO: implement
