@@ -78,7 +78,7 @@ def leaf_prediction(labels):
     # majority vote
     u, c = np.unique(labels, return_counts=True)
     combined = [(val, freq) for (val, freq) in zip(u, c)]
-    combined.sort(key=lambda x: -x[0])
+    combined.sort(key=lambda x: -x[1])
     return combined[0][0].item()
 
 # Step 7 - build_tree
@@ -126,8 +126,18 @@ def build_tree(
         "right": right_node,
     }
 
-# Step 8 - predict_example_tree (not yet solved)
-# TODO: implement
+# Step 8 - predict_example_tree
+def predict_example_tree(tree, example):
+    # TODO: walk the example down the fitted tree until you reach a leaf, then return its prediction.
+    # base case
+    if tree['leaf']:
+        return tree['prediction']
+    else:
+        feature_index, threshold = tree['feature_index'], tree['threshold']
+        if example[feature_index] <= threshold:
+            return predict_example_tree(tree['left'], example)
+        else:
+            return predict_example_tree(tree['right'], example)
 
 # Step 9 - predict_tree (not yet solved)
 # TODO: implement
