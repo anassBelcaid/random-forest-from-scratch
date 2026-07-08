@@ -206,8 +206,18 @@ def combine_predictions(tree_predictions):
         result[i] = leaf_prediction(tree_predictions[:, i])
     return result
 
-# Step 14 - predict_forest (not yet solved)
-# TODO: implement
+# Step 14 - predict_forest
+def predict_forest(forest, features):
+    t = len(forest)
+    n = features.shape[0]
+
+    tree_predictions = np.zeros((t, n))
+
+    for i in range(t):
+        feature_subset = forest[i]["feature_indices"]
+        tree_predictions[i] = predict_tree(forest[i]["tree"], features)
+
+    return combine_predictions(tree_predictions)
 
 # Step 15 - accuracy (not yet solved)
 # TODO: implement
