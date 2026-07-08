@@ -197,8 +197,14 @@ def train_forest(
 
     return trees
 
-# Step 13 - combine_predictions (not yet solved)
-# TODO: implement
+# Step 13 - combine_predictions
+def combine_predictions(tree_predictions):
+    # TODO: aggregate the per-tree predictions of an ensemble into one prediction per example.
+    t, n = tree_predictions.shape
+    result = np.zeros(n)
+    for i in range(n):
+        result[i] = leaf_prediction(tree_predictions[:, i])
+    return result
 
 # Step 14 - predict_forest (not yet solved)
 # TODO: implement
