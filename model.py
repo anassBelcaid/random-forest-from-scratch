@@ -66,7 +66,7 @@ def should_stop(labels, depth, max_depth, min_samples_split):
     """Return True if this node should become a leaf instead of splitting further."""
     if depth >= max_depth:
         return True
-    if len(labels) <= min_samples_split:
+    if len(labels) < min_samples_split:
         return True
     if impurity(labels) == 0.0:
         return True
